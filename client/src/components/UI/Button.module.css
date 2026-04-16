@@ -1,0 +1,70 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* Размеры */
+.sm  { padding: 6px 12px;  font-size: 13px; }
+.md  { padding: 9px 18px;  font-size: 14px; }
+.lg  { padding: 12px 24px; font-size: 15px; }
+
+/* Варианты */
+.primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+.primary:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.secondary {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+.secondary:hover:not(:disabled) {
+  background: #dbeafe;
+}
+
+.danger {
+  background: #fee2e2;
+  color: var(--color-danger);
+}
+.danger:hover:not(:disabled) {
+  background: #fecaca;
+}
+
+.ghost {
+  background: transparent;
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+}
+.ghost:hover:not(:disabled) {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.fullWidth { width: 100%; }
+
+/* Спиннер */
+.spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }

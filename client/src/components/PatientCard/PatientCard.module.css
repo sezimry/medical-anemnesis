@@ -1,0 +1,67 @@
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: box-shadow 0.15s;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+
+.self {
+  border-color: var(--color-primary);
+  border-width: 2px;
+}
+
+/* Шапка */
+.header { display: flex; align-items: flex-start; gap: 12px; }
+
+.avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--color-primary-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+
+.info { flex: 1; min-width: 0; }
+
+.name {
+  font-size: 15px; font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.meta {
+  display: flex; align-items: center; gap: 8px; margin-top: 4px;
+  flex-wrap: wrap;
+  font-size: 12px; color: var(--color-muted);
+}
+
+/* Секции */
+.section { border-top: 1px solid var(--color-border); padding-top: 12px; }
+
+.sectionTitle {
+  font-size: 12px; font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+
+.list { display: flex; flex-direction: column; gap: 6px; }
+
+/* Диагноз */
+.diagRow { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.diagMain { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.diagTitle { font-size: 13px; font-weight: 500; color: var(--color-text); }
+.diagDate  { font-size: 11px; color: var(--color-subtle); flex-shrink: 0; }
+
+/* Аллергия */
+.allergyRow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.allergen   { font-size: 13px; font-weight: 500; color: var(--color-text); }
+.reaction   { font-size: 12px; color: var(--color-muted); font-style: italic; }
+
+/* Нет данных */
+.empty { font-size: 13px; color: var(--color-subtle); text-align: center; padding: 8px 0; }
