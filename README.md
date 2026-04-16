@@ -1,11 +1,12 @@
 # Семейный анамнез — Family Medical History System
 
-Веб-приложение для хранения, редактирования и анализа медицинской информации о пользователе и его родственниках.
+Система для хранения, редактирования и анализа медицинской информации о пользователе и его родственниках. Включает веб-приложение и мобильное приложение на Flutter.
 
 ---
 
 ## Технологии
 
+### Веб-приложение
 | Слой | Стек |
 |---|---|
 | Frontend | React 18, React Router 6, Axios, Vite 5 |
@@ -14,39 +15,60 @@
 | Аутентификация | JWT + bcryptjs |
 | PDF-экспорт | pdfkit |
 
+### Мобильное приложение
+| Слой | Стек |
+|---|---|
+| Фреймворк | Flutter 3, Dart |
+| Состояние | Provider 6 |
+| HTTP-клиент | http 1.2 |
+| Хранилище | shared_preferences |
+| Локализация | intl |
+| Платформы | Android, iOS |
+
 ---
 
 ## Структура проекта
 
 ```
-Medical Organizer site/
-├── client/                  # React-приложение
+medical-organizer/
+├── client/                      # React-приложение
 │   └── src/
-│       ├── api/             # Axios-клиент
-│       ├── components/      # UI, Layout, PatientCard, FamilyTree
-│       ├── context/         # AuthContext, LocaleContext
-│       ├── hooks/           # useAuth, useRelatives, useMedical
-│       ├── locales/         # ru.json, kg.json
-│       ├── pages/           # Login, Register, Dashboard, Profile,
-│       │                    # Relatives, MedicalRecords, FamilyTree
-│       └── utils/           # export.js
-└── server/                  # Express-сервер
-    ├── controllers/         # authController, userController,
-    │                        # relativesController, diagnosesController,
-    │                        # allergiesController
-    ├── db/                  # database.js, migrations.js, medical.db*
-    ├── middleware/          # auth.js (JWT)
-    ├── models/              # User, Relative, Diagnosis, Allergy
-    ├── routes/              # auth, user, relatives, diagnoses,
-    │                        # allergies, export
-    └── utils/               # exportPdf.js
+│       ├── api/                 # Axios-клиент
+│       ├── components/          # UI, Layout, PatientCard, FamilyTree
+│       ├── context/             # AuthContext, LocaleContext
+│       ├── hooks/               # useAuth, useRelatives, useMedical
+│       ├── locales/             # ru.json, kg.json
+│       ├── pages/               # Login, Register, Dashboard, Profile,
+│       │                        # Relatives, MedicalRecords, FamilyTree
+│       └── utils/               # export.js
+├── server/                      # Express-сервер
+│   ├── controllers/             # authController, userController,
+│   │                            # relativesController, diagnosesController,
+│   │                            # allergiesController
+│   ├── db/                      # database.js, migrations.js, medical.db*
+│   ├── middleware/              # auth.js (JWT)
+│   ├── models/                  # User, Relative, Diagnosis, Allergy
+│   ├── routes/                  # auth, user, relatives, diagnoses,
+│   │                            # allergies, export
+│   └── utils/                   # exportPdf.js
+└── medical_organizer/           # Flutter мобильное приложение
+    └── lib/
+        ├── config/              # api.dart — базовый URL сервера
+        ├── models/              # User, Relative, Diagnosis, Allergy
+        ├── providers/           # AuthProvider (Provider)
+        ├── screens/             # LoginScreen, RegisterScreen, HomeScreen,
+        │                        # RelativeFormScreen, DiagnosisFormScreen,
+        │                        # AllergyFormScreen
+        └── services/            # ApiService, StorageService
 ```
 
 ---
 
 ## Быстрый старт
 
-### 1. Установка зависимостей
+### Веб-приложение
+
+#### 1. Установка зависимостей
 
 ```bash
 # Сервер
@@ -58,7 +80,7 @@ cd client
 npm install
 ```
 
-### 2. Переменные окружения
+#### 2. Переменные окружения
 
 Файл `server/.env` уже создан. При необходимости измените:
 
@@ -68,7 +90,7 @@ JWT_SECRET=super_secret_medical_key_change_in_production
 JWT_EXPIRES_IN=7d
 ```
 
-### 3. Запуск
+#### 3. Запуск
 
 ```bash
 # Терминал 1 — сервер (http://localhost:5000)
@@ -81,6 +103,50 @@ npm run dev
 ```
 
 При первом запуске сервера база данных `server/db/medical.db` создаётся автоматически.
+
+---
+
+### Мобильное приложение (Flutter)
+
+#### Требования
+
+- Flutter SDK 3.x ([flutter.dev](https://flutter.dev/docs/get-started/install))
+- Dart SDK ^3.11
+- Android Studio / Xcode для эмулятора или физическое устройство
+
+#### 1. Установка зависимостей
+
+```bash
+cd medical_organizer
+flutter pub get
+```
+
+#### 2. Настройка сервера
+
+В файле `medical_organizer/lib/config/api.dart` укажите адрес вашего сервера:
+
+```dart
+// Для эмулятора Android — 10.0.2.2 вместо localhost
+const String baseUrl = 'http://10.0.2.2:5000/api';
+
+// Для физического устройства — IP вашего компьютера
+// const String baseUrl = 'http://192.168.x.x:5000/api';
+```
+
+#### 3. Запуск
+
+```bash
+cd medical_organizer
+
+# Просмотр доступных устройств
+flutter devices
+
+# Запуск на устройстве/эмуляторе
+flutter run
+
+# Сборка APK для Android
+flutter build apk --release
+```
 
 ---
 
@@ -134,6 +200,7 @@ npm run dev
 
 ## Функционал
 
+### Веб-приложение
 - Регистрация и авторизация (JWT, хэширование паролей bcrypt)
 - Профиль пользователя: просмотр, редактирование, смена пароля, удаление аккаунта
 - Управление родственниками: добавление, редактирование, удаление, поиск
@@ -146,6 +213,14 @@ npm run dev
 - Экспорт данных: JSON и PDF
 - Локализация: русский (RU) и кыргызский (KG)
 - Offline-кэш: данные пользователя хранятся в localStorage
+
+### Мобильное приложение (Flutter)
+- Авторизация и регистрация через API сервера
+- Токен хранится локально (shared_preferences)
+- Просмотр и добавление родственников
+- Добавление диагнозов и аллергий с привязкой к родственнику
+- Provider для управления состоянием аутентификации
+- Работает на Android и iOS
 
 ---
 
