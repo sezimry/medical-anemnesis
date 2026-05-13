@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/storage_service.dart';
+import '../services/cache_service.dart';
 
 class AuthProvider extends ChangeNotifier {
   User? _user;
@@ -25,21 +26,22 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> login(String email, String password) async {
-    final token = await ApiService.login(email, password);
-    await StorageService.saveToken(token);
-    _user = await ApiService.getProfile();
+    final data = await ApiService.login(email, password);
+    await StorageService.saveToken(data['token']);
+    _user = User.fromJson(data['user']);
     notifyListeners();
   }
 
-  Future<void> register(String email, String password, String fullName) async {
-    final token = await ApiService.register(email, password, fullName);
-    await StorageService.saveToken(token);
-    _user = await ApiService.getProfile();
+  Future<void> register(String email, String password, String fullName, {String? birthDate, String? gender}) async {
+    final data = await ApiService.register(email, password, fullName, birthDate: birthDate, gender: gender);
+    await StorageService.saveToken(data['token']);
+    _user = User.fromJson(data['user']);
     notifyListeners();
   }
 
   Future<void> logout() async {
     await StorageService.removeToken();
+    await CacheService.clearAll();
     _user = null;
     notifyListeners();
   }

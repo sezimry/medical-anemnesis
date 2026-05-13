@@ -28,7 +28,10 @@ class Allergy {
       );
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'relative_id': relativeId,
+        'relative_name': relativeName,
+        'relation_type': relationType,
         'allergen': allergen,
         'reaction': reaction,
         'severity': severity,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
+import '../providers/locale_provider.dart';
+import '../widgets/lang_switch.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,10 +22,15 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
     setState(() { _loading = true; _error = null; });
     try {
-      await context.read<AuthProvider>().login(
+      final auth = context.read<AuthProvider>();
+      await auth.login(
         _emailCtrl.text.trim(),
         _passwordCtrl.text.trim(),
       );
+      if (mounted) {
+        final route = auth.user?.isDoctor == true ? '/doctor/patients' : '/home';
+        Navigator.of(context).pushNamedAndRemoveUntil(route, (_) => false);
+      }
     } catch (e) {
       setState(() => _error = e.toString());
     } finally {
@@ -33,6 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.watch<LocaleProvider>().t;
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -44,10 +52,12 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const Align(alignment: Alignment.centerRight, child: LangSwitch(dark: false)),
+                  const SizedBox(height: 8),
                   const Icon(Icons.medical_services, size: 64, color: Colors.teal),
                   const SizedBox(height: 16),
                   Text(
-                    'Семейный анамнез',
+                    t('app_name'),
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
@@ -55,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Войдите в аккаунт',
+                    t('login'),
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Colors.grey,
@@ -64,26 +74,24 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 32),
                   TextFormField(
                     controller: _emailCtrl,
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      prefixIcon: Icon(Icons.email_outlined),
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: t('email'),
+                      prefixIcon: const Icon(Icons.email_outlined),
+                      border: const OutlineInputBorder(),
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    validator: (v) =>
-                        (v == null || v.isEmpty) ? 'Введите email' : null,
+                    validator: (v) => (v == null || v.isEmpty) ? t('email') : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _passwordCtrl,
-                    decoration: const InputDecoration(
-                      labelText: 'Пароль',
-                      prefixIcon: Icon(Icons.lock_outlined),
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: t('password'),
+                      prefixIcon: const Icon(Icons.lock_outlined),
+                      border: const OutlineInputBorder(),
                     ),
                     obscureText: true,
-                    validator: (v) =>
-                        (v == null || v.isEmpty) ? 'Введите пароль' : null,
+                    validator: (v) => (v == null || v.isEmpty) ? t('password') : null,
                   ),
                   if (_error != null) ...[
                     const SizedBox(height: 12),
@@ -102,12 +110,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 20, width: 20,
                             child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                           )
-                        : const Text('Войти', style: TextStyle(fontSize: 16)),
+                        : Text(t('login'), style: const TextStyle(fontSize: 16)),
                   ),
                   const SizedBox(height: 16),
                   TextButton(
                     onPressed: () => Navigator.pushReplacementNamed(context, '/register'),
-                    child: const Text('Нет аккаунта? Зарегистрируйтесь'),
+                    child: Text(t('no_account')),
                   ),
                 ],
               ),

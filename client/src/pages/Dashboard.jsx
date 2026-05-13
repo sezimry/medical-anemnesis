@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Users, Stethoscope, AlertTriangle, ClipboardList } from 'lucide-react';
 import { useLocale } from '../context/LocaleContext.jsx';
 import { useAuth }   from '../hooks/useAuth.js';
 import Sidebar     from '../components/Layout/Sidebar.jsx';
@@ -59,10 +60,10 @@ export default function Dashboard() {
         <div className="app-content">
           {/* Статистика */}
           <div className="stats-grid">
-            <StatCard label={t('dashboard.total_relatives')} value={stats.relatives} icon="👥" color="blue" />
-            <StatCard label={t('dashboard.total_diagnoses')} value={stats.diagnoses} icon="🩺" color="red" />
-            <StatCard label={t('dashboard.total_allergies')} value={stats.allergies} icon="⚠️" color="yellow" />
-            <StatCard label={t('dashboard.chronic')}         value={stats.chronic}   icon="📋" color="gray" />
+            <StatCard label={t('dashboard.total_relatives')} value={stats.relatives} icon={<Users size={22}/>}          color="blue" />
+            <StatCard label={t('dashboard.total_diagnoses')} value={stats.diagnoses} icon={<Stethoscope size={22}/>}    color="red" />
+            <StatCard label={t('dashboard.total_allergies')} value={stats.allergies} icon={<AlertTriangle size={22}/>}  color="yellow" />
+            <StatCard label={t('dashboard.chronic')}         value={stats.chronic}   icon={<ClipboardList size={22}/>}  color="gray" />
           </div>
 
           {/* Карточки пациентов */}

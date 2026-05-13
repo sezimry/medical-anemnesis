@@ -7,6 +7,7 @@ import Sidebar from '../components/Layout/Sidebar.jsx';
 import Navbar  from '../components/Layout/Navbar.jsx';
 import Button  from '../components/UI/Button.jsx';
 import Badge   from '../components/UI/Badge.jsx';
+import { Printer, Download, User, GitBranch } from 'lucide-react';
 
 // ─── Константы раскладки дерева ───────────────────────────────────────────────
 const NODE_W   = 140;
@@ -16,7 +17,7 @@ const V_GAP    = 90;   // вертикальный отступ между ур�
 
 const GENDER_BG     = { male: '#dbeafe', female: '#fce7f3', other: '#f1f5f9' };
 const GENDER_BORDER = { male: '#93c5fd', female: '#f9a8d4', other: '#cbd5e1' };
-const GENDER_ICON   = { male: '👨',      female: '👩',       other: '🧑' };
+const GENDER_ICON   = { male: '♂', female: '♀', other: '○' };
 
 // ─── Алгоритм раскладки ───────────────────────────────────────────────────────
 // Возвращает Map<id, {x, y}> — позиции узлов
@@ -133,21 +134,21 @@ export default function FamilyTree() {
           actions={
             <div style={{ display: 'flex', gap: 8 }}>
               <Button variant="ghost" size="sm" onClick={() => window.print()}>
-                🖨 Печать
+                <Printer size={14} style={{marginRight:4}}/> Печать
               </Button>
               <Button
                 variant="secondary" size="sm"
                 loading={exporting === 'json'}
                 onClick={() => handleExport('json')}
               >
-                ⬇ JSON
+                <Download size={14} style={{marginRight:4}}/> JSON
               </Button>
               <Button
                 variant="secondary" size="sm"
                 loading={exporting === 'pdf'}
                 onClick={() => handleExport('pdf')}
               >
-                ⬇ PDF
+                <Download size={14} style={{marginRight:4}}/> PDF
               </Button>
             </div>
           }
@@ -160,7 +161,7 @@ export default function FamilyTree() {
 
           {!loading && allNodes.length <= 1 && (
             <div className="card" style={{ textAlign: 'center', padding: 48 }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}>🌳</div>
+              <div style={{ marginBottom: 12, display:'flex', justifyContent:'center' }}><GitBranch size={48} color="var(--color-muted)"/></div>
               <p style={{ color: 'var(--color-muted)' }}>
                 {t('relatives.no_relatives')}
               </p>

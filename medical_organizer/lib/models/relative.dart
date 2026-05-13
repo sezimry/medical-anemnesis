@@ -28,6 +28,7 @@ class Relative {
       );
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'full_name': fullName,
         'birth_date': birthDate,
         'gender': gender,

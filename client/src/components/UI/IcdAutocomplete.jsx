@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { searchICD10 } from '../../utils/icd10.js';
+import { X } from 'lucide-react';
 import styles from './IcdAutocomplete.module.css';
 
 /**
@@ -81,7 +82,7 @@ export default function IcdAutocomplete({ value, onChange, label }) {
             onClick={() => { setQuery(''); setSuggestions([]); setOpen(false); onChange('', ''); }}
             type="button"
             tabIndex={-1}
-          >✕</button>
+          ><X size={14}/></button>
         )}
       </div>
 

@@ -2,8 +2,8 @@ const bcrypt = require('bcryptjs');
 const jwt    = require('jsonwebtoken');
 const User   = require('../models/User');
 
-function generateToken(userId) {
-  return jwt.sign({ userId }, process.env.JWT_SECRET, {
+function generateToken(userId, role = 'patient') {
+  return jwt.sign({ userId, role }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN || '7d',
   });
 }
@@ -21,9 +21,9 @@ async function register(req, res) {
       return res.status(409).json({ error: 'Пользователь с таким email уже существует' });
 
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const newId = await User.create({ email, password: hashedPassword, full_name, birth_date, gender });
+    const newId = await User.create({ email, password: hashedPassword, full_name, birth_date, gender, role: 'patient' });
     const user  = await User.findById(newId);
-    const token = generateToken(newId);
+    const token = generateToken(newId, 'patient');
     return res.status(201).json({ token, user });
   } catch (err) {
     console.error('register error:', err);
@@ -45,7 +45,7 @@ async function login(req, res) {
     if (!passwordMatch)
       return res.status(401).json({ error: 'Неверный email или пароль' });
 
-    const token = generateToken(user.id);
+    const token = generateToken(user.id, user.role);
     const { password: _pw, ...safeUser } = user;
     return res.json({ token, user: safeUser });
   } catch (err) {

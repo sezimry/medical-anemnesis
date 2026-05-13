@@ -34,7 +34,10 @@ class Diagnosis {
       );
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'relative_id': relativeId,
+        'relative_name': relativeName,
+        'relation_type': relationType,
         'icd_code': icdCode,
         'title': title,
         'description': description,

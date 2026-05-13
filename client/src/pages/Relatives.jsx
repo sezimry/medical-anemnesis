@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocale } from '../context/LocaleContext.jsx';
 import { useRelatives } from '../hooks/useRelatives.js';
+import { User, Pencil, Trash2 } from 'lucide-react';
 import Sidebar  from '../components/Layout/Sidebar.jsx';
 import Navbar   from '../components/Layout/Navbar.jsx';
 import Button   from '../components/UI/Button.jsx';
@@ -251,7 +252,7 @@ function RelativeCard({ rel, t, onEdit, onDelete, genderColor }) {
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 20,
         }}>
-          {rel.gender === 'male' ? '👨' : rel.gender === 'female' ? '👩' : '🧑'}
+          <User size={20} />
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontWeight: 600, fontSize: 15, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -278,10 +279,10 @@ function RelativeCard({ rel, t, onEdit, onDelete, genderColor }) {
       {/* Действия */}
       <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
         <Button variant="ghost" size="sm" onClick={onEdit} style={{ flex: 1 }}>
-          ✏️ {t('common.edit')}
+          <Pencil size={14} style={{marginRight:4}}/> {t('common.edit')}
         </Button>
         <Button variant="danger" size="sm" onClick={onDelete}>
-          🗑
+          <Trash2 size={14}/>
         </Button>
       </div>
     </div>

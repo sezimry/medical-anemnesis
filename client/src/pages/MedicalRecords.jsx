@@ -3,6 +3,7 @@ import { useLocale }    from '../context/LocaleContext.jsx';
 import { useMedical }   from '../hooks/useMedical.js';
 import { useRelatives } from '../hooks/useRelatives.js';
 import { useToast }     from '../context/ToastContext.jsx';
+import { Stethoscope, AlertTriangle, Search, User, Calendar, Pencil, Trash2 } from 'lucide-react';
 import Sidebar           from '../components/Layout/Sidebar.jsx';
 import Navbar            from '../components/Layout/Navbar.jsx';
 import Button            from '../components/UI/Button.jsx';
@@ -166,17 +167,17 @@ export default function MedicalRecords() {
                         background: 'var(--color-bg)', borderRadius: 'var(--radius-sm)',
                         padding: 4, width: 'fit-content' }}>
             <TabBtn active={tab === 'diagnoses'}  onClick={() => setTab('diagnoses')}>
-              🩺 {t('medical.diagnoses')} <CountBadge n={diagnoses.length} />
+              <Stethoscope size={15} style={{marginRight:4}}/> {t('medical.diagnoses')} <CountBadge n={diagnoses.length} />
             </TabBtn>
             <TabBtn active={tab === 'allergies'} onClick={() => setTab('allergies')}>
-              ⚠️ {t('medical.allergies')} <CountBadge n={allergies.length} />
+              <AlertTriangle size={15} style={{marginRight:4}}/> {t('medical.allergies')} <CountBadge n={allergies.length} />
             </TabBtn>
           </div>
 
           {/* Фильтры */}
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 20 }}>
             <Input
-              placeholder={`🔍 ${tab === 'diagnoses' ? t('medical.disease_name') : t('medical.allergen')}...`}
+              placeholder={`${tab === 'diagnoses' ? t('medical.disease_name') : t('medical.allergen')}...`}
               value={search}
               onChange={e => setSearch(e.target.value)}
               style={{ width: 220 }}
@@ -226,7 +227,7 @@ export default function MedicalRecords() {
           {/* ── Список диагнозов ── */}
           {!loading && tab === 'diagnoses' && (
             filteredDiagnoses.length === 0
-              ? <EmptyState icon="🩺" text={t('medical.no_diagnoses')} onAdd={openDiagCreate} addLabel={t('medical.add_diagnosis')} />
+              ? <EmptyState icon={<Stethoscope size={32}/>} text={t('medical.no_diagnoses')} onAdd={openDiagCreate} addLabel={t('medical.add_diagnosis')} />
               : <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {filteredDiagnoses.map(d => (
                     <DiagnosisRow key={d.id} d={d}
@@ -242,7 +243,7 @@ export default function MedicalRecords() {
           {/* ── Список аллергий ── */}
           {!loading && tab === 'allergies' && (
             filteredAllergies.length === 0
-              ? <EmptyState icon="⚠️" text={t('medical.no_allergies')} onAdd={openAllergyCreate} addLabel={t('medical.add_allergy')} />
+              ? <EmptyState icon={<AlertTriangle size={32}/>} text={t('medical.no_allergies')} onAdd={openAllergyCreate} addLabel={t('medical.add_allergy')} />
               : <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {filteredAllergies.map(a => (
                     <AllergyRow key={a.id} a={a}
@@ -393,14 +394,14 @@ function DiagnosisRow({ d, who, t, onEdit, onDelete }) {
           {d.is_chronic === 1 && <Badge color="red">{t('medical.is_chronic')}</Badge>}
         </div>
         <div style={{ display: 'flex', gap: 16, fontSize: 12, color: 'var(--color-muted)', flexWrap: 'wrap' }}>
-          <span>👤 {who}</span>
-          {d.diagnosed_at && <span>📅 {d.diagnosed_at}</span>}
+          <span style={{display:'flex',alignItems:'center',gap:4}}><User size={13}/> {who}</span>
+          {d.diagnosed_at && <span style={{display:'flex',alignItems:'center',gap:4}}><Calendar size={13}/> {d.diagnosed_at}</span>}
           {d.description  && <span style={{ fontStyle: 'italic' }}>{d.description}</span>}
         </div>
       </div>
       <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-        <Button variant="ghost" size="sm" onClick={onEdit}>✏️</Button>
-        <Button variant="danger" size="sm" onClick={onDelete}>🗑</Button>
+        <Button variant="ghost" size="sm" onClick={onEdit}><Pencil size={14}/></Button>
+        <Button variant="danger" size="sm" onClick={onDelete}><Trash2 size={14}/></Button>
       </div>
     </div>
   );
@@ -420,13 +421,13 @@ function AllergyRow({ a, who, t, onEdit, onDelete }) {
           )}
         </div>
         <div style={{ display: 'flex', gap: 16, fontSize: 12, color: 'var(--color-muted)', flexWrap: 'wrap' }}>
-          <span>👤 {who}</span>
-          {a.reaction && <span>⚡ {a.reaction}</span>}
+          <span style={{display:'flex',alignItems:'center',gap:4}}><User size={13}/> {who}</span>
+          {a.reaction && <span>{a.reaction}</span>}
         </div>
       </div>
       <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-        <Button variant="ghost" size="sm" onClick={onEdit}>✏️</Button>
-        <Button variant="danger" size="sm" onClick={onDelete}>🗑</Button>
+        <Button variant="ghost" size="sm" onClick={onEdit}><Pencil size={14}/></Button>
+        <Button variant="danger" size="sm" onClick={onDelete}><Trash2 size={14}/></Button>
       </div>
     </div>
   );

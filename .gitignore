@@ -1,31 +1,36 @@
 # Dependencies
 node_modules/
+client/node_modules/
+server/node_modules/
 
-# Environment variables
+# Environment variables (contains passwords!)
+server/.env
 .env
-.env.local
 
 # Build output
-dist/
-build/
+client/dist/
+client/build/
 
 # Logs
 *.log
+npm-debug.log*
 
-# OS
+# OS files
 .DS_Store
 Thumbs.db
 
-# Flutter
-medical_organizer/.dart_tool/
-medical_organizer/.flutter-plugins
-medical_organizer/.flutter-plugins-dependencies
-medical_organizer/build/
-medical_organizer/.packages
+# IDE
+.vscode/
+.idea/
 
-# SQLite
+# SQLite database files
 *.db
 *.db-shm
 *.db-wal
-.claude/
 
+# Загруженные файлы пользователей
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Claude local settings
+.claude/settings.local.json

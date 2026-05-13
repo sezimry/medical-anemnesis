@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
+import { X } from 'lucide-react';
 import styles from './Modal.module.css';
 import Button from './Button.jsx';
 
-/**
- * Модальное окно — закрывается по Escape и клику на оверлей
- */
 export default function Modal({ isOpen, onClose, title, children, footer }) {
-  // Закрытие по Escape
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e) => { if (e.key === 'Escape') onClose(); };
@@ -14,7 +11,6 @@ export default function Modal({ isOpen, onClose, title, children, footer }) {
     return () => document.removeEventListener('keydown', handler);
   }, [isOpen, onClose]);
 
-  // Блокируем скролл страницы пока открыто
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -33,7 +29,7 @@ export default function Modal({ isOpen, onClose, title, children, footer }) {
         <div className={styles.header}>
           <h3 className={styles.title}>{title}</h3>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Закрыть">
-            ✕
+            <X size={18} />
           </button>
         </div>
 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLocale } from '../context/LocaleContext.jsx';
+import { Lock, Trash2 } from 'lucide-react';
 import Sidebar from '../components/Layout/Sidebar.jsx';
 import Navbar from '../components/Layout/Navbar.jsx';
 import Button from '../components/UI/Button.jsx';
@@ -159,10 +160,10 @@ export default function Profile() {
             {/* Действия */}
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <Button variant="secondary" size="sm" onClick={() => setPwdModal(true)}>
-                🔒 {t('profile.change_password')}
+                <Lock size={14} style={{marginRight:4}}/> {t('profile.change_password')}
               </Button>
               <Button variant="danger" size="sm" onClick={() => setDeleteModal(true)}>
-                🗑 {t('profile.delete_account')}
+                <Trash2 size={14} style={{marginRight:4}}/> {t('profile.delete_account')}
               </Button>
             </div>
           </div>

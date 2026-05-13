@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useCallback, useRef } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
+import { CheckCircle, XCircle, AlertTriangle, Info, X } from 'lucide-react';
 import styles from '../components/UI/Toast.module.css';
 
 const ToastContext = createContext(null);
@@ -12,7 +13,6 @@ export function ToastProvider({ children }) {
     setToasts(prev => prev.filter(t => t.id !== id));
   }, []);
 
-  // type: 'success' | 'error' | 'info' | 'warning'
   const show = useCallback((message, type = 'info', duration = 3500) => {
     const id = ++idCounter;
     setToasts(prev => [...prev, { id, message, type }]);
@@ -28,7 +28,6 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={{ show, success, error, info, warning }}>
       {children}
-      {/* Портал уведомлений — поверх всего */}
       <div className={styles.container} aria-live="polite">
         {toasts.map(t => (
           <Toast key={t.id} toast={t} onClose={() => remove(t.id)} />
@@ -44,15 +43,21 @@ export function useToast() {
   return ctx;
 }
 
-// ─── Один тост ───────────────────────────────────────────────────────────────
-const ICONS = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+const ICONS = {
+  success: <CheckCircle  size={16} />,
+  error:   <XCircle      size={16} />,
+  warning: <AlertTriangle size={16} />,
+  info:    <Info         size={16} />,
+};
 
 function Toast({ toast, onClose }) {
   return (
     <div className={[styles.toast, styles[toast.type]].join(' ')}>
       <span className={styles.icon}>{ICONS[toast.type]}</span>
       <span className={styles.message}>{toast.message}</span>
-      <button className={styles.close} onClick={onClose} aria-label="Закрыть">✕</button>
+      <button className={styles.close} onClick={onClose} aria-label="Закрыть">
+        <X size={14} />
+      </button>
     </div>
   );
 }

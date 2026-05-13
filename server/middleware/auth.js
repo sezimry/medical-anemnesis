@@ -1,8 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-// Проверяет JWT-токен из заголовка Authorization: Bearer <token>
-// При успехе добавляет req.userId и пропускает запрос дальше
-// При ошибке возвращает 401
 function authMiddleware(req, res, next) {
   const authHeader = req.headers['authorization'];
 
@@ -14,7 +11,8 @@ function authMiddleware(req, res, next) {
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = payload.userId;
+    req.userId   = payload.userId;
+    req.userRole = payload.role || 'patient';
     next();
   } catch (err) {
     return res.status(401).json({ error: 'Токен недействителен или истёк' });

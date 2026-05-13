@@ -10,6 +10,10 @@ const relativesRoutes = require('./routes/relatives');
 const diagnosesRoutes = require('./routes/diagnoses');
 const allergiesRoutes = require('./routes/allergies');
 const exportRoutes    = require('./routes/export');
+const doctorRoutes    = require('./routes/doctor');
+const coursesRoutes   = require('./routes/courses');
+const remindersRoutes  = require('./routes/reminders');
+const documentsRoutes  = require('./routes/documents');
 
 const app = express();
 
@@ -35,6 +39,10 @@ app.use('/api/relatives', relativesRoutes);
 app.use('/api/diagnoses', diagnosesRoutes);
 app.use('/api/allergies', allergiesRoutes);
 app.use('/api/export',    exportRoutes);
+app.use('/api/doctor',    doctorRoutes);
+app.use('/api/courses',   coursesRoutes);
+app.use('/api/reminders', remindersRoutes);
+app.use('/api/documents', documentsRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 app.use((_req, res) => res.status(404).json({ error: 'Маршрут не найден' }));

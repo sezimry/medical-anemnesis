@@ -1,32 +1,24 @@
+import { User, Stethoscope, AlertTriangle, Calendar } from 'lucide-react';
 import Badge from '../UI/Badge.jsx';
 import styles from './PatientCard.module.css';
 
-const GENDER_ICON   = { male: '👨', female: '👩', other: '🧑' };
 const SEVERITY_COLOR = { mild: 'green', moderate: 'yellow', severe: 'red' };
 
-/**
- * Карточка пациента (пользователя или родственника) с полным списком
- * диагнозов и аллергий.
- *
- * Props:
- *   person    — { full_name, birth_date, gender, relation_type? }
- *   diagnoses — массив диагнозов этого человека
- *   allergies — массив аллергий этого человека
- *   t         — функция перевода
- *   isSelf    — boolean (синяя обводка для текущего пользователя)
- */
 export default function PatientCard({ person, diagnoses = [], allergies = [], t, isSelf = false }) {
   return (
     <div className={[styles.card, isSelf ? styles.self : ''].join(' ')}>
-      {/* Шапка */}
       <div className={styles.header}>
         <div className={styles.avatar}>
-          {GENDER_ICON[person.gender] || '🧑'}
+          <User size={24} />
         </div>
         <div className={styles.info}>
           <div className={styles.name}>{person.full_name}</div>
           <div className={styles.meta}>
-            {person.birth_date && <span>📅 {person.birth_date}</span>}
+            {person.birth_date && (
+              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Calendar size={13} /> {person.birth_date}
+              </span>
+            )}
             {person.relation_type && !isSelf && (
               <Badge color={person.gender === 'male' ? 'blue' : person.gender === 'female' ? 'red' : 'gray'}>
                 {t(`relatives.relations.${person.relation_type}`)}
@@ -37,10 +29,12 @@ export default function PatientCard({ person, diagnoses = [], allergies = [], t,
         </div>
       </div>
 
-      {/* Диагнозы */}
       {diagnoses.length > 0 && (
         <div className={styles.section}>
-          <div className={styles.sectionTitle}>🩺 {t('medical.diagnoses')}</div>
+          <div className={styles.sectionTitle}>
+            <Stethoscope size={14} style={{ marginRight: 4 }} />
+            {t('medical.diagnoses')}
+          </div>
           <div className={styles.list}>
             {diagnoses.map(d => (
               <div key={d.id} className={styles.diagRow}>
@@ -58,10 +52,12 @@ export default function PatientCard({ person, diagnoses = [], allergies = [], t,
         </div>
       )}
 
-      {/* Аллергии */}
       {allergies.length > 0 && (
         <div className={styles.section}>
-          <div className={styles.sectionTitle}>⚠️ {t('medical.allergies')}</div>
+          <div className={styles.sectionTitle}>
+            <AlertTriangle size={14} style={{ marginRight: 4 }} />
+            {t('medical.allergies')}
+          </div>
           <div className={styles.list}>
             {allergies.map(a => (
               <div key={a.id} className={styles.allergyRow}>
@@ -80,7 +76,6 @@ export default function PatientCard({ person, diagnoses = [], allergies = [], t,
         </div>
       )}
 
-      {/* Нет данных */}
       {diagnoses.length === 0 && allergies.length === 0 && (
         <p className={styles.empty}>{t('dashboard.no_data')}</p>
       )}

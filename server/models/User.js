@@ -8,16 +8,16 @@ const User = {
 
   async findById(id) {
     const { rows } = await pool.query(
-      'SELECT id, email, full_name, birth_date, gender, created_at FROM users WHERE id = $1', [id]
+      'SELECT id, email, full_name, birth_date, gender, role, created_at FROM users WHERE id = $1', [id]
     );
     return rows[0] || null;
   },
 
-  async create({ email, password, full_name, birth_date, gender }) {
+  async create({ email, password, full_name, birth_date, gender, role = 'patient' }) {
     const { rows } = await pool.query(
-      `INSERT INTO users (email, password, full_name, birth_date, gender)
-       VALUES ($1,$2,$3,$4,$5) RETURNING id`,
-      [email, password, full_name, birth_date || null, gender || null]
+      `INSERT INTO users (email, password, full_name, birth_date, gender, role)
+       VALUES ($1,$2,$3,$4,$5,$6) RETURNING id`,
+      [email, password, full_name, birth_date || null, gender || null, role]
     );
     return rows[0].id;
   },
