@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String baseUrl = 'http://localhost:5000/api';
+  static const String baseUrl = 'https://medical-anemnesis-production.up.railway.app/api';
 
   static const String login      = '$baseUrl/auth/login';
   static const String register   = '$baseUrl/auth/register';
@@ -10,27 +10,23 @@ class ApiConfig {
   static const String exportJson = '$baseUrl/export/json';
   static const String exportPdf  = '$baseUrl/export/pdf';
 
-  // Документы
-  static const String documents = '$baseUrl/documents';
-  static String document(int id)     => '$baseUrl/documents/$id';
-  static String documentFile(int id) => '$baseUrl/documents/$id/file';
+  static const String documents            = '$baseUrl/documents';
+  static String document(int id)           => '$baseUrl/documents/$id';
+  static String documentFile(int id)       => '$baseUrl/documents/$id/file';
 
-  // Напоминания
-  static const String reminders = '$baseUrl/reminders';
-  static String reminder(int id)        => '$baseUrl/reminders/$id';
-  static String reminderToggle(int id)  => '$baseUrl/reminders/$id/toggle';
+  static const String reminders            = '$baseUrl/reminders';
+  static String reminder(int id)           => '$baseUrl/reminders/$id';
+  static String reminderToggle(int id)     => '$baseUrl/reminders/$id/toggle';
 
-  // Курсы лечения
-  static const String courses = '$baseUrl/courses';
-  static String course(int id)       => '$baseUrl/courses/$id';
-  static String medications(int id)  => '$baseUrl/courses/$id/medications';
+  static const String courses              = '$baseUrl/courses';
+  static String course(int id)             => '$baseUrl/courses/$id';
+  static String medications(int id)        => '$baseUrl/courses/$id/medications';
   static String medication(int cid, int mid) => '$baseUrl/courses/$cid/medications/$mid';
 
-  // Врач
-  static const String patients   = '$baseUrl/doctor/patients';
-  static String patient(int id)  => '$baseUrl/doctor/patients/$id';
-  static String patientDiagnoses(int id) => '$baseUrl/doctor/patients/$id/diagnoses';
-  static String patientAllergies(int id) => '$baseUrl/doctor/patients/$id/allergies';
+  static const String patients             = '$baseUrl/doctor/patients';
+  static String patient(int id)            => '$baseUrl/doctor/patients/$id';
+  static String patientDiagnoses(int id)   => '$baseUrl/doctor/patients/$id/diagnoses';
+  static String patientAllergies(int id)   => '$baseUrl/doctor/patients/$id/allergies';
   static String patientDiagnosis(int pid, int did) => '$baseUrl/doctor/patients/$pid/diagnoses/$did';
   static String patientAllergy(int pid, int aid)   => '$baseUrl/doctor/patients/$pid/allergies/$aid';
 }
